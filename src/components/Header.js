@@ -1,6 +1,6 @@
 import React from 'react'
-import {AppBar,Toolbar, Typography,makeStyles} from '@mui/material'
-
+import {AppBar,Toolbar, Typography} from '@mui/material'
+import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles((theme)=>({
 	title:{
 		fontSize:24
