@@ -1,6 +1,8 @@
 import {React} from 'react'
 import {makeStyles} from '@mui/styles'
-import {FormControl,InputLabel,Select,MenuItem} from '@mui/material'
+import Grid from '@mui/material/Grid';
+import {FormControl,InputLabel,Select,MenuItem,CircularProgress} from '@mui/material'
+import PlaceDetails from './../components/PlaceDetails';
 
 const useStyles = makeStyles((theme)=>({
     container:{
@@ -11,6 +13,13 @@ const useStyles = makeStyles((theme)=>({
         minWidth:120,
         marginBottom:30
     },
+    loading:{
+        height:"100%",
+        width:"600px",
+        display:"flex",
+        justifyContent:"center",        
+        alignItems:"center"
+    }
 }));
 
 export default function List({type,setType,isLoading,childClicked,places}) {
@@ -18,14 +27,31 @@ export default function List({type,setType,isLoading,childClicked,places}) {
 
   return (
     <div className={classes.container}>
-        <FormControl className={classes.formControl}>
-            <InputLabel id="Type">Type</InputLabel>  
-            <Select id="placeType" value={type} onChange={(e)=>setType(e.target.value)}>
-                <MenuItem value="restaurants">Restaurants</MenuItem>
-                <MenuItem value="hotels">Hotels</MenuItem>
-                <MenuItem value="attractions">Attractions</MenuItem>
-            </Select>          
-        </FormControl>
+        {isLoading?(
+            <div className={classes.loading}>
+                <CircularProgress />
+            </div>
+        ):(
+            <div>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="Type">Type</InputLabel>  
+                    <Select id="placeType" value={type} onChange={(e)=>setType(e.target.value)}>
+                        <MenuItem value="restaurants">Restaurants</MenuItem>
+                        <MenuItem value="hotels">Hotels</MenuItem>
+                        <MenuItem value="attractions">Attractions</MenuItem>
+                    </Select>          
+                </FormControl>
+                <Grid container spacing={3} className={classes.list}>
+                    {places?.map((place,index)=>{
+                        return (
+                            <Grid item xs={12}>
+                                <PlaceDetails place={place} key={index} />
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </div>
+        )}
 
     </div>
   )
